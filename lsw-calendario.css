@@ -1,0 +1,21 @@
+.win7 table.tabla_de_calendario {
+    width: 100%;
+}
+.win7 button.boton_de_calendario {
+    min-width: auto;
+    width: 100%;
+    padding: 2px;
+}
+.win7 button.boton_de_mover_mes {
+    width: 100%;
+}
+.win7 input.entrada_de_calendario {
+    min-width: auto;
+    width: 100%;
+    text-align: center;
+}
+.win7 .chivato_de_fecha {
+    font-size: 8px;
+    font-family: monospace;
+    text-align: center;
+}

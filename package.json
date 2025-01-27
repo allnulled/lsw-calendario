@@ -1,0 +1,15 @@
+{
+  "name": "@allnulled/lsw-calendario",
+  "version": "1.0.0",
+  "description": "UI-calendar tool for LSW",
+  "main": "lsw-calendario.js",
+  "directories": {},
+  "scripts": {
+    "build": "echo 'no building for node.js of lsw-calendario",
+    "test": "echo 'no test for node.js of lsw-calendario",
+    "versionate": "echo 'no versionate for node.js of lsw-calendario"
+  },
+  "keywords": [],
+  "author": "allnulled",
+  "license": "WTFPL"
+}
