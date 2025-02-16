@@ -1,85 +1,106 @@
 <div class="Component LswCalendario">
-    <div style="max-width: 200px;">
-      <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
-      <div class="chivato_de_fecha">a las {{ espaciar_izquierda(hora_seleccionada, 2) }}:{{ espaciar_izquierda(minuto_seleccionado, 2) }}:{{ espaciar_izquierda(segundo_seleccionado, 2) }}.{{ espaciar_izquierda(milisegundo_seleccionado, 3) }}</div>
-      <table class="tabla_de_calendario">
-        <tbody>
-          <tr>
-            <td>
-              <button class="boton_de_mover_mes" v-on:click="ir_a_mes_anterior"> ◀ </button>
-            </td>
-            <td>
-              <button class="boton_de_mover_mes" v-on:click="ir_a_mes_siguiente"> ▶ </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="tabla_de_calendario">
-        <tbody>
-          <tr v-for="semana, semana_index in celdas_del_mes_actual" v-bind:key="'semana-' + semana_index">
-            <td v-for="dia, dia_index in semana" v-bind:key="'dia-' + dia_index">
-              <span v-if="dia">
-                <button class="boton_de_calendario" :class="{active: dia.getDate() === fecha_seleccionada.getDate()}" v-on:click="() => seleccionar_dia(dia)">{{ dia.getDate() }}</button>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="tabla_de_calendario" v-if="!soloFecha">
-        <tbody>
-          <tr>
-            <td>
-              <button class="boton_de_calendario" v-on:click="agregar_hora"> ▲ </button>
-            </td>
-            <td>
-              <button class="boton_de_calendario" v-on:click="agregar_minuto"> ▲ </button>
-            </td>
-            <td>
-              <button class="boton_de_calendario" v-on:click="agregar_segundo"> ▲ </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <table>
-                <tr>
-                  <td><input class="entrada_de_calendario" type="text" v-model="hora_seleccionada" /></td>
-                  <td>:</td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <table>
-                <tr>
-                  <td><input class="entrada_de_calendario" type="text" v-model="minuto_seleccionado" /></td>
-                  <td>:</td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <table>
-                <tr>
-                  <td><input class="entrada_de_calendario" type="text" v-model="segundo_seleccionado" /></td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <button class="boton_de_calendario" v-on:click="quitar_hora"> ▼ </button>
-            </td>
-            <td>
-              <button class="boton_de_calendario" v-on:click="quitar_minuto"> ▼ </button>
-            </td>
-            <td>
-              <button class="boton_de_calendario" v-on:click="quitar_segundo"> ▼ </button>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="100">
-              <input class="entrada_de_calendario" type="text" v-model="milisegundo_seleccionado" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div style="max-width: 260px;">
+    <table class="tabla_para_mover_mes">
+      <tr>
+        <td>
+          <button class="boton_de_mover_mes"
+            v-on:click="ir_a_mes_anterior"> ◀ </button>
+        </td>
+        <td style="width:100%;">
+          <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
+          <div class="chivato_de_fecha" v-if="!soloFecha">a las {{ espaciar_izquierda(hora_seleccionada, 2) }}:{{ espaciar_izquierda(minuto_seleccionado, 2)
+            }}:{{
+            espaciar_izquierda(segundo_seleccionado, 2) }}.{{ espaciar_izquierda(milisegundo_seleccionado, 3) }}
+          </div>
+        </td>
+        <td>
+          <button class="boton_de_mover_mes"
+            v-on:click="ir_a_mes_siguiente"> ▶ </button>
+        </td>
+      </tr>
+    </table>
+    <table class="tabla_de_calendario">
+      <tbody>
+        <tr class="fila_de_dias_de_semana">
+          <td>Lu</td>
+          <td>Ma</td>
+          <td>Mi</td>
+          <td>Ju</td>
+          <td>Vi</td>
+          <td>Sá</td>
+          <td>Do</td>
+        </tr>
+      </tbody>
+      <tbody class="dias_de_calendario">
+        <tr v-for="semana, semana_index in celdas_del_mes_actual"
+          v-bind:key="'semana-' + semana_index">
+          <td v-for="dia, dia_index in semana"
+            v-bind:key="'dia-' + dia_index">
+            <span v-if="dia">
+              <button class="boton_de_calendario boton_de_dia_de_calendario"
+                :class="{active: dia.getDate() === fecha_seleccionada.getDate()}"
+                v-on:click="() => seleccionar_dia(dia)">{{ dia.getDate() }}</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="tabla_para_horas"
+      v-if="!soloFecha">
+      <tr>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="agregar_hora"> ▲ </button>
+        </td>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="agregar_minuto"> ▲ </button>
+        </td>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="agregar_segundo"> ▲ </button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input style="display: table-cell;"
+            class="entrada_de_calendario"
+            type="text"
+            v-model="hora_seleccionada" />
+        </td>
+        <td>
+          <input style="display: table-cell;"
+            class="entrada_de_calendario"
+            type="text"
+            v-model="minuto_seleccionado" />
+        </td>
+        <td>
+          <input style="display: table-cell;"
+            class="entrada_de_calendario"
+            type="text"
+            v-model="segundo_seleccionado" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="quitar_hora"> ▼ </button>
+        </td>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="quitar_minuto"> ▼ </button>
+        </td>
+        <td>
+          <button style="display: table-cell;"
+            class="boton_de_calendario"
+            v-on:click="quitar_segundo"> ▼ </button>
+        </td>
+      </tr>
+    </table>
   </div>
+</div>

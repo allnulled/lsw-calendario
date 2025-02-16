@@ -4,6 +4,10 @@ Vue.component("LswCalendario", {
     soloFecha: {
       type: Boolean,
       default: false
+    },
+    alCambiarValor: {
+      type: Function,
+      default: () => {}
     }
   },
   data() {
@@ -284,6 +288,9 @@ Vue.component("LswCalendario", {
           dias.push(fila_actual);
         }
         this.celdas_del_mes_actual = dias;
+        if(typeof this.alCambiarValor === "function") {
+          this.alCambiarValor(nuevo_valor, this);
+        }
       } catch (error) {
         console.log(error);
         throw error;
