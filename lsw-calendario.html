@@ -1,24 +1,24 @@
 <div class="Component LswCalendario">
   <div style="max-width: 260px;">
-    <table class="tabla_para_mover_mes">
-      <tr>
-        <td>
+    <div class="like_table" style="border-left: 1px solid white; border-bottom: 1px solid white; border-top: 1px solid white;">
+      <div class="like_row">
+        <div class="like_cell">
           <button class="boton_de_mover_mes"
             v-on:click="ir_a_mes_anterior"> ◀ </button>
-        </td>
-        <td style="width:100%;">
+        </div>
+        <div class="like_cell" style="width:100%;">
           <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
           <div class="chivato_de_fecha" v-if="!soloFecha">a las {{ espaciar_izquierda(hora_seleccionada, 2) }}:{{ espaciar_izquierda(minuto_seleccionado, 2)
             }}:{{
             espaciar_izquierda(segundo_seleccionado, 2) }}.{{ espaciar_izquierda(milisegundo_seleccionado, 3) }}
           </div>
-        </td>
-        <td>
+        </div>
+        <div class="like_cell">
           <button class="boton_de_mover_mes"
             v-on:click="ir_a_mes_siguiente"> ▶ </button>
-        </td>
-      </tr>
-    </table>
+        </div>
+      </div>
+    </div>
     <table class="tabla_de_calendario">
       <tbody>
         <tr class="fila_de_dias_de_semana">

@@ -1,7 +1,18 @@
+.LswCalendario .like_table {
+    display: table;
+    width: 100%;
+}
+.LswCalendario .like_row {
+    display: table-row;
+}
+.LswCalendario .like_cell {
+    display: table-cell;
+}
 table.tabla_de_calendario {
     width: 100%;
     border: none;
     border-collapse: collapse;
+    margin-left: 1px;
 }
 button.boton_de_calendario {
     min-width: auto;
@@ -31,6 +42,7 @@ input.entrada_de_calendario {
 }
 table.tabla_para_horas {
     width: 100%;
+    border-left: 1px solid white;
 }
 table.tabla_para_horas button {
     width: 100%;
@@ -49,11 +61,11 @@ tr.fila_de_dias_de_semana > td {
     text-align: center;
     padding: 4px;
     border-bottom: 1px solid white;
-    border-left: 1px solid white;
+    border-right: 1px solid white;
 }
 tbody.dias_de_calendario > tr > td {
     padding: 0px;
-    border-left: 1px solid white;
+    border-right: 1px solid white;
 }
 tbody.dias_de_calendario > tr > td > span {
     display: inline-block;

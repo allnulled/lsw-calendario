@@ -27,6 +27,9 @@ Vue.component("LswCalendario", {
 
   },
   methods: {
+    getValue() {
+      return this.fecha_seleccionada;
+    },
     ir_a_mes_anterior() {
       try {
         const nueva_fecha = new Date(this.fecha_seleccionada);
