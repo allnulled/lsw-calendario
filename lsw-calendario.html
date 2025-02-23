@@ -6,7 +6,7 @@
           <button class="boton_de_mover_mes"
             v-on:click="ir_a_mes_anterior"> ◀ </button>
         </div>
-        <div class="like_cell" style="width:100%;">
+        <div class="like_cell" style="width:100%;" :style="!soloFecha ? 'vertical-align: top;' : ''">
           <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
           <div class="chivato_de_fecha" v-if="!soloFecha">a las {{ espaciar_izquierda(hora_seleccionada, 2) }}:{{ espaciar_izquierda(minuto_seleccionado, 2)
             }}:{{
