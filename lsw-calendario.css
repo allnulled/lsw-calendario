@@ -52,7 +52,6 @@ table.tabla_para_horas input {
     width: 100%;
 }
 .Component.LswCalendario button {
-    border-radius: 0pt;
     
 }
 tr.fila_de_dias_de_semana > td {
@@ -66,6 +65,7 @@ tr.fila_de_dias_de_semana > td {
 tbody.dias_de_calendario > tr > td {
     padding: 0px;
     border-right: 1px solid white;
+    border-bottom: 1px solid white;
 }
 tbody.dias_de_calendario > tr > td > span {
     display: inline-block;
