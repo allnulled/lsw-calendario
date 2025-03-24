@@ -341,7 +341,6 @@ Vue.component("LswCalendario", {
         }
         this.celdas_del_mes_actual = dias;
         this.propagar_cambio();
-        this.actualizar_fecha_seleccionada(false);
       } catch (error) {
         console.log(error);
         throw error;
