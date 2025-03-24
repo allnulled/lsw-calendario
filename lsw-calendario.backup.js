@@ -12,12 +12,11 @@ Vue.component("LswCalendario", {
     alCambiarValor: {
       type: Function,
       default: () => { }
-    },
+    }
   },
   data() {
     try {
       this.$trace("lsw-calendario.data");
-      const hoy = new Date();
       return {
         es_carga_inicial: true,
         valor_inicial_adaptado: this.adaptar_valor_inicial(this.valorInicial),
@@ -26,17 +25,19 @@ Vue.component("LswCalendario", {
         es_fecha_y_hora: this.modo === "datetime",
         fecha_seleccionada: undefined,
         celdas_del_mes_actual: undefined,
-        marcadores_del_mes: {},
-        hoy: hoy,
-        dia_actual: hoy.getDate(),
-        mes_actual: hoy.getMonth(),
-        anio_actual: hoy.getFullYear(),
         /*
         hora_seleccionada: "0",
         minuto_seleccionado: "0",
         segundo_seleccionado: "0",
         milisegundo_seleccionado: "0",
         //*/
+        digito_de_hora_1: 0,
+        digito_de_hora_2: 0,
+        digito_de_hora_3: 0,
+        digito_de_hora_4: 0,
+        digito_de_hora_5: 0,
+        digito_de_hora_6: 0,
+        expresion_de_hora: "",
       };
     } catch (error) {
       console.log(error);
@@ -50,7 +51,7 @@ Vue.component("LswCalendario", {
     },
     adaptar_valor_inicial(valor) {
       this.$trace("lsw-calendario.methods.adaptar_valor_inicial");
-      if (typeof valor === "string") {
+      if(typeof valor === "string") {
         try {
           const resultado = LswTimer.utils.getDateFromMomentoText(valor);
           console.log("FECHA ENTRADA:", resultado);
@@ -63,82 +64,21 @@ Vue.component("LswCalendario", {
     },
     agregar_digito_de_hora(indice) {
       this.$trace("lsw-calendario.methods.agregar_digito_de_hora");
-      const value = this.obtener_digito_de_hora(indice);
-      const isInMaximum = ([3, 5].indexOf(indice) !== -1) ? value === 5 : ([1].indexOf(indice) !== -1) ? value === 2 : value === 9;
-      if (!isInMaximum) {
-        this.establecer_digito_de_hora(indice, value + 1);
+      const propId = "digito_de_hora_" + indice;
+      const value = this[propId];
+      const isInMaximum = ([3,5].indexOf(indice) !== -1) ? value === 5 : ([1].indexOf(indice) !== -1) ? value === 2 : value === 9;
+      if(!isInMaximum) {
+        this[propId]++;
       }
     },
     quitar_digito_de_hora(indice) {
       this.$trace("lsw-calendario.methods.quitar_digito_de_hora");
-      const value = this.obtener_digito_de_hora(indice);
+      const propId = "digito_de_hora_" + indice;
+      const value = this[propId];
       const isInMinimum = value === 0;
-      if (!isInMinimum) {
-        this.establecer_digito_de_hora(indice, value - 1);
+      if(!isInMinimum) {
+        this[propId]--;
       }
-    },
-    obtener_digito_de_hora(indice, fecha = this.fecha_seleccionada) {
-      this.$trace("lsw-calendario.methods.obtener_digito_de_hora");
-      if (indice === 1) {
-        return parseInt(this.espaciar_izquierda(fecha.getHours(), 2)[0]);
-      } else if (indice === 2) {
-        return parseInt(this.espaciar_izquierda(fecha.getHours(), 2)[1]);
-      } else if (indice === 3) {
-        return parseInt(this.espaciar_izquierda(fecha.getMinutes(), 2)[0]);
-      } else if (indice === 4) {
-        return parseInt(this.espaciar_izquierda(fecha.getMinutes(), 2)[1]);
-      } else if (indice === 5) {
-        return parseInt(this.espaciar_izquierda(fecha.getSeconds(), 2)[0]);
-      } else if (indice === 6) {
-        return parseInt(this.espaciar_izquierda(fecha.getSeconds(), 2)[1]);
-      } else {
-        throw new Error("No se reconoció el índice del dígito: " + indice);
-      }
-    },
-    cambiar_posicion_en_texto(texto, posicion, valor) {
-      this.$trace("lsw-calendario.methods.cambiar_posicion_en_texto");
-      const arr = ("" + texto).split("");
-      arr[posicion] = valor;
-      return arr.join("");
-    },
-    establecer_digito_de_hora(indice, valor) {
-      this.$trace("lsw-calendario.methods.establecer_digito_de_hora");
-      console.log(indice, valor);
-      const fecha_clonada = new Date(this.fecha_seleccionada);
-      if (indice === 1) {
-        let horas = this.espaciar_izquierda(this.fecha_seleccionada.getHours(), 2);
-        horas = this.cambiar_posicion_en_texto(horas, 0, valor);
-        const horasInt = parseInt(horas);
-        if(horasInt > 23) return;
-        fecha_clonada.setHours(horasInt);
-      } else if (indice === 2) {
-        let horas = this.espaciar_izquierda(this.fecha_seleccionada.getHours(), 2);
-        horas = this.cambiar_posicion_en_texto(horas, 1, valor);
-        const horasInt = parseInt(horas);
-        if(horasInt > 23) return;
-        fecha_clonada.setHours(horasInt);
-      } else if (indice === 3) {
-        let minutos = this.espaciar_izquierda(this.fecha_seleccionada.getMinutes(), 2);
-        minutos = this.cambiar_posicion_en_texto(minutos, 0, valor);
-        const minutosInt = parseInt(minutos);
-        if(minutosInt > 59) return;
-        fecha_clonada.setMinutes(minutosInt);
-      } else if (indice === 4) {
-        let minutos = this.espaciar_izquierda(this.fecha_seleccionada.getMinutes(), 2);
-        minutos = this.cambiar_posicion_en_texto(minutos, 1, valor);
-        const minutosInt = parseInt(minutos);
-        if(minutosInt > 59) return;
-        fecha_clonada.setMinutes(minutosInt);
-      } else if (indice === 5) {
-        // @OK
-      } else if (indice === 6) {
-        // @OK
-      } else {
-        throw new Error("No se reconoció el índice del dígito: " + indice);
-      }
-      console.log(fecha_clonada);
-      this.fecha_seleccionada = fecha_clonada;
-      this.actualizar_fecha_seleccionada(true);
     },
     ir_a_mes_anterior() {
       this.$trace("lsw-calendario.methods.ir_a_mes_anterior");
@@ -349,8 +289,24 @@ Vue.component("LswCalendario", {
     },
     actualizar_fecha_seleccionada(con_propagacion = true, fecha_seleccionada = this.fecha_seleccionada) {
       this.$trace("lsw-calendario.methods.actualizar_fecha_seleccionada");
-      if (con_propagacion) {
+      let hora = parseInt(("" + this.digito_de_hora_1) + ("" + this.digito_de_hora_2));
+      let minuto = parseInt(("" + this.digito_de_hora_3) + ("" + this.digito_de_hora_4));
+      let segundo = parseInt(("" + this.digito_de_hora_5) + ("" + this.digito_de_hora_6));
+      Fix_maximums: {
+        hora = hora > 23 ? 23 : hora;
+        minuto = minuto > 59 ? 59 : hora;
+        segundo = segundo > 59 ? 59 : segundo;
+      }
+      if (!con_propagacion) {
+        fecha_seleccionada.setHours(hora);
+        fecha_seleccionada.setMinutes(minuto);
+        fecha_seleccionada.setSeconds(segundo);
+      } else {
         const clon_fecha = new Date(fecha_seleccionada);
+        clon_fecha.setHours(hora);
+        clon_fecha.setMinutes(minuto);
+        clon_fecha.setSeconds(segundo);
+        clon_fecha.setMilliseconds(0);
         this.fecha_seleccionada = clon_fecha;
       }
     },
@@ -360,17 +316,53 @@ Vue.component("LswCalendario", {
         this.alCambiarValor(this.fecha_seleccionada, this);
       }
     },
-    obtener_expresion_de_hora(fecha = this.fecha_seleccionada) {
+    obtener_de_fecha_a_digitos(fecha = this.fecha_seleccionada) {
+      this.$trace("lsw-calendario.methods.obtener_de_fecha_a_digitos");
       let hours = fecha.getHours();
       let minutes = fecha.getMinutes();
       let seconds = fecha.getSeconds();
       hours = this.espaciar_izquierda(hours, 2, "0");
       minutes = this.espaciar_izquierda(minutes, 2, "0");
       seconds = this.espaciar_izquierda(seconds, 2, "0");
-      return `${hours}:${minutes}:${seconds}`;
+      const digito_de_hora_1 = hours[0];
+      const digito_de_hora_2 = hours[1];
+      const digito_de_hora_3 = minutes[0];
+      const digito_de_hora_4 = minutes[1];
+      const digito_de_hora_5 = seconds[0];
+      const digito_de_hora_6 = seconds[1];
+      return {
+        digito_de_hora_1,
+        digito_de_hora_2,
+        digito_de_hora_3,
+        digito_de_hora_4,
+        digito_de_hora_5,
+        digito_de_hora_6,
+      };
     },
-    establecer_marcadores_del_mes(marcadores_del_mes) {
-      this.marcadores_del_mes = marcadores_del_mes;
+    actualizar_de_fecha_a_digitos(fecha = this.fecha_seleccionada) {
+      this.$trace("lsw-calendario.methods.actualizar_de_fecha_a_digitos");
+      const {
+        digito_de_hora_1,
+        digito_de_hora_2,
+        digito_de_hora_3,
+        digito_de_hora_4,
+        digito_de_hora_5,
+        digito_de_hora_6,
+      } = this.obtener_de_fecha_a_digitos(fecha);
+      this.digito_de_hora_1 = digito_de_hora_1;
+      this.digito_de_hora_2 = digito_de_hora_2;
+      this.digito_de_hora_3 = digito_de_hora_3;
+      this.digito_de_hora_4 = digito_de_hora_4;
+      this.digito_de_hora_5 = digito_de_hora_5;
+      this.digito_de_hora_6 = digito_de_hora_6;
+      this.expresion_de_hora = `${digito_de_hora_1}${digito_de_hora_2}:${digito_de_hora_3}${digito_de_hora_4}:${digito_de_hora_5}${digito_de_hora_6}`;
+      if(!this.es_carga_inicial) {
+        this.actualizar_fecha_seleccionada(true, fecha);
+      }
+    },
+    actualizar_de_digitos_a_fecha() {
+      if(this.es_carga_inicial) return;
+      this.actualizar_fecha_seleccionada(true);
     }
   },
   watch: {
@@ -378,11 +370,18 @@ Vue.component("LswCalendario", {
       this.$trace("lsw-calendario.watch.fecha_seleccionada");
       this.actualizar_calendario(nuevo_valor);
     },
+    digito_de_hora_1() {this.actualizar_de_digitos_a_fecha()},
+    digito_de_hora_2() {this.actualizar_de_digitos_a_fecha()},
+    digito_de_hora_3() {this.actualizar_de_digitos_a_fecha()},
+    digito_de_hora_4() {this.actualizar_de_digitos_a_fecha()},
+    digito_de_hora_5() {this.actualizar_de_digitos_a_fecha()},
+    digito_de_hora_6() {this.actualizar_de_digitos_a_fecha()},
   },
   mounted() {
     this.$trace("lsw-calendario.mounted");
     try {
       this.fecha_seleccionada = this.valor_inicial_adaptado;
+      this.actualizar_de_fecha_a_digitos();
       this.es_carga_inicial = false;
     } catch (error) {
       console.log(error);

@@ -1,34 +1,32 @@
 <div class="Component LswCalendario">
-  <div class="visor_de_calendario">
+  <div style="max-width: 260px;">
+    <div class="like_table margin_bottom_1" style="border-collapse: collapse; border: none;">
+      <div class="like_row">
+        <div class="like_cell">
+          <button class="boton_de_mover_mes"
+            v-on:click="ir_a_mes_anterior"> ◀ </button>
+        </div>
+        <div class="like_cell" style="width:100%; vertical-align: top;">
+          <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
+          <div class="chivato_de_fecha" v-if="!es_solo_fecha">a las {{ expresion_de_hora }}
+          </div>
+        </div>
+        <div class="like_cell text_align_right">
+          <button class="boton_de_mover_mes"
+            v-on:click="ir_a_mes_siguiente"> ▶ </button>
+        </div>
+      </div>
+    </div>
     <table class="tabla_de_calendario">
       <tbody>
-        <tr>
-          <td>
-            <button class="boton_de_mover_mes"
-              v-on:click="ir_a_mes_anterior"> ◀ </button>
-          </td>
-          <td colspan="5"
-            style="width:auto; vertical-align: top;">
-            <div class="chivato_de_fecha">{{ obtener_fecha_formateada(fecha_seleccionada) }}</div>
-            <div class="chivato_de_fecha"
-              v-if="(!es_solo_fecha) && fecha_seleccionada">a las {{ obtener_expresion_de_hora(fecha_seleccionada) }}
-            </div>
-          </td>
-          <td>
-            <button class="boton_de_mover_mes"
-              v-on:click="ir_a_mes_siguiente"> ▶ </button>
-          </td>
-        </tr>
-      </tbody>
-      <tbody>
         <tr class="fila_de_dias_de_semana">
-          <td><div class="">Lu</div></td>
-          <td><div class="">Ma</div></td>
-          <td><div class="">Mi</div></td>
-          <td><div class="">Ju</div></td>
-          <td><div class="">Vi</div></td>
-          <td><div class="">Sá</div></td>
-          <td><div class="">Do</div></td>
+          <td>Lu</td>
+          <td>Ma</td>
+          <td>Mi</td>
+          <td>Ju</td>
+          <td>Vi</td>
+          <td>Sá</td>
+          <td>Do</td>
         </tr>
       </tbody>
       <tbody class="dias_de_calendario">
@@ -36,30 +34,16 @@
           v-bind:key="'semana-' + semana_index">
           <td v-for="dia, dia_index in semana"
             v-bind:key="'dia-' + dia_index">
-            <span v-if="dia && (dia instanceof Date)">
-              <button class="boton_de_calendario boton_de_dia_de_calendario position_relative"
-                :class="{
-                  active: dia.getDate() === fecha_seleccionada.getDate(),
-                  current: (dia_actual === dia.getDate())
-                    && (mes_actual === dia.getMonth())
-                    && (anio_actual === dia.getFullYear())
-                }"
-                v-on:click="() => seleccionar_dia(dia)">
-                <div class="dia_de_calendario_texto">{{ dia.getDate() }}</div>
-                <div v-if="dia.getDate() in marcadores_del_mes"
-                  class="total_de_tareas_de_dia">
-                  <div>
-                    {{ marcadores_del_mes[dia.getDate()].length }}
-                  </div>
-                </div>
-              </button>
+            <span v-if="dia">
+              <button class="boton_de_calendario boton_de_dia_de_calendario"
+                :class="{active: dia.getDate() === fecha_seleccionada.getDate()}"
+                v-on:click="() => seleccionar_dia(dia)">{{ dia.getDate() }}</button>
             </span>
           </td>
         </tr>
       </tbody>
     </table>
-    <table class="width_100 no_borders_table"
-      v-if="modo === 'datetime' || modo === 'time'">
+    <table class="width_100 no_borders_table">
       <tbody>
         <tr class="fila_de_digito">
           <td v-on:click="agregar_digito_de_hora(1)"><button class="boton_de_ajuste_de_hora">▲</button></td>
@@ -71,16 +55,15 @@
           <td v-on:click="$noop"><button class="boton_de_ajuste_de_hora">▲</button></td>
           <td v-on:click="$noop"><button class="boton_de_ajuste_de_hora">▲</button></td>
         </tr>
-        <tr class="fila_de_digito"
-          v-if="fecha_seleccionada">
-          <td>{{ obtener_digito_de_hora(1) }}</td>
-          <td>{{ obtener_digito_de_hora(2) }}</td>
+        <tr class="fila_de_digito">
+          <td>{{ digito_de_hora_1 }}</td>
+          <td>{{ digito_de_hora_2 }}</td>
           <td>:</td>
-          <td>{{ obtener_digito_de_hora(3) }}</td>
-          <td>{{ obtener_digito_de_hora(4) }}</td>
+          <td>{{ digito_de_hora_3 }}</td>
+          <td>{{ digito_de_hora_4 }}</td>
           <td>:</td>
-          <td>{{ obtener_digito_de_hora(5) }}</td>
-          <td>{{ obtener_digito_de_hora(6) }}</td>
+          <td>{{ digito_de_hora_5 }}</td>
+          <td>{{ digito_de_hora_6 }}</td>
         </tr>
         <tr class="fila_de_digito">
           <td v-on:click="quitar_digito_de_hora(1)"><button class="boton_de_ajuste_de_hora">▼</button></td>

@@ -1,3 +1,9 @@
+:root {
+    --altura_de_dias_de_calendario: 40px;
+}
+.visor_de_calendario {
+    max-width: 260px;
+}
 .LswCalendario .like_table {
     display: table;
     width: 100%;
@@ -23,11 +29,16 @@ button.boton_de_calendario {
 button.boton_de_dia_de_calendario {
     min-width: 32px;
 }
-button.boton_de_dia_de_calendario.active {
+button.boton_de_dia_de_calendario.current {
     background-color: rgb(46, 46, 97);
+    color: white;
+}
+button.boton_de_dia_de_calendario.active {
+    background-color: white;
+    color: black;
 }
 button.boton_de_mover_mes {
-    width: auto;
+    width: 100%;
     min-width: 25px;
 }
 input.entrada_de_calendario {
@@ -54,13 +65,14 @@ table.tabla_para_horas input {
 .Component.LswCalendario button {
     
 }
-tr.fila_de_dias_de_semana > td {
+tr.fila_de_dias_de_semana > td > div {
     background-color: #232;
     color: white;
     text-align: center;
     padding: 4px;
     border-bottom: 1px solid white;
     border-right: 1px solid white;
+    border-radius: 4pt;
 }
 tbody.dias_de_calendario > tr > td {
     padding: 0px;
@@ -74,8 +86,51 @@ tbody.dias_de_calendario > tr > td > span {
     width: 100%;
     height: 100%;
     padding: 0px;
+    min-height: var(--altura_de_dias_de_calendario);
 }
 tbody.dias_de_calendario > tr > td > span > button {
     width: 100%;
     height: 100%;
+    min-height: var(--altura_de_dias_de_calendario);
+}
+.no_borders_table {
+    border-collapse: collapse;
+    border: none;
+}
+.fila_de_digito {
+    text-align: center;
+}
+.fila_de_digito > td {
+    vertical-align: middle;
+    padding-right: 1px;
+}
+.boton_de_ajuste_de_hora {
+    width: 100%;
+}
+.total_de_tareas_de_dia {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    font-size: 10px;
+}
+.total_de_tareas_de_dia > div {
+    text-align: center;
+    background-color: #336;
+    color: white;
+    text-shadow: 0 0 1px black;
+    min-width: 10px;
+    min-height: 10px;
+    border-radius: 1pt;
+    padding: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+button.active > .total_de_tareas_de_dia > div {
+    background-color: #FFF;
+    color: black;
+}
+
+.dia_de_calendario_texto {
+    margin-top: -12px;
 }
