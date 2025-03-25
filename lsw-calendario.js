@@ -59,7 +59,7 @@ Vue.component("LswCalendario", {
           console.error("Error parseando valor inicial de lsw-calendario:", error);
         }
       }
-      return valor;
+      return valor || new Date();
     },
     agregar_digito_de_hora(indice) {
       this.$trace("lsw-calendario.methods.agregar_digito_de_hora");
@@ -194,8 +194,9 @@ Vue.component("LswCalendario", {
     obtener_fecha_formateada(fecha) {
       this.$trace("lsw-calendario.methods.obtener_fecha_formateada");
       try {
-        if (typeof fecha === 'undefined') {
-          return;
+        if (!(fecha instanceof Date)) {
+          console.log(fecha);
+          throw new Error("Required parameter «fecha» to be a Date on «LswCalendario.methods.obtener_fecha_formateada»");
         }
         let formato = "";
         formato += (() => {
