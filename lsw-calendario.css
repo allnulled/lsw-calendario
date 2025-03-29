@@ -30,7 +30,7 @@ button.boton_de_dia_de_calendario {
     min-width: 32px;
 }
 button.boton_de_dia_de_calendario.current {
-    background-color: rgb(46, 46, 97);
+    background-color: rgb(97, 48, 46);
     color: white;
 }
 button.boton_de_dia_de_calendario.active {
