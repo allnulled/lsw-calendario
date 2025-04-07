@@ -144,8 +144,7 @@ Vue.component("LswCalendario", {
       this.$trace("lsw-calendario.methods.ir_a_mes_anterior");
       try {
         const nueva_fecha = new Date(this.fecha_seleccionada);
-        nueva_fecha.setMonth(nueva_fecha.getMonth() - 1);
-        this.fecha_seleccionada = nueva_fecha;
+        this.fecha_seleccionada = new Date(nueva_fecha.getFullYear(), nueva_fecha.getMonth()-1, 1);
       } catch (error) {
         console.log(error);
         throw error;
@@ -156,8 +155,7 @@ Vue.component("LswCalendario", {
       this.$trace("lsw-calendario.methods.ir_a_mes_siguiente");
       try {
         const nueva_fecha = new Date(this.fecha_seleccionada);
-        nueva_fecha.setMonth(nueva_fecha.getMonth() + 1);
-        this.fecha_seleccionada = nueva_fecha;
+        this.fecha_seleccionada = new Date(nueva_fecha.getFullYear(), nueva_fecha.getMonth()+1, 1);
       } catch (error) {
         console.log(error);
         throw error;
@@ -322,13 +320,19 @@ Vue.component("LswCalendario", {
           }
         })();
         const celdas_vacias_anteriores = new Array(dias_antes_de_entrar_en_el_mes);
-        const dia_final_del_mes = new Date(nuevo_valor);
-        dia_final_del_mes.setMonth(dia_final_del_mes.getMonth() + 1);
-        dia_final_del_mes.setDate(1);
-        dia_final_del_mes.setDate(dia_final_del_mes.getDate() - 1);
+        let dia_final_del_mes = undefined;
+        Logica_anterior: {
+          dia_final_del_mes = new Date(nuevo_valor);
+          dia_final_del_mes.setMonth(dia_final_del_mes.getMonth() + 1);
+          dia_final_del_mes.setDate(1);
+          dia_final_del_mes.setDate(dia_final_del_mes.getDate() - 1);
+        }
+        Logica_chatgpt: {
+          dia_final_del_mes = new Date(nuevo_valor.getFullYear(), nuevo_valor.getMonth() + 1, 0);
+        }
         const numero_final_de_mes = dia_final_del_mes.getDate();
         let fila_actual = celdas_vacias_anteriores;
-        for (let index = 1; index < numero_final_de_mes + 1; index++) {
+        for (let index = 1; index <= numero_final_de_mes; index++) {
           const nueva_fecha = new Date(dia_1_del_mes);
           nueva_fecha.setDate(index);
           fila_actual.push(nueva_fecha);
